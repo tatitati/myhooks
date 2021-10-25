@@ -37,7 +37,7 @@ notebook-create() {
   "metadata": {},
   "nbformat": 4,
   "nbformat_minor": 2
- }' > $(pwd)/$1
+ }' > $(pwd)/$1.ipynb
 
  jupyter notebook $(pwd)/$1
 
