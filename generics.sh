@@ -39,7 +39,7 @@ notebook-create() {
   "nbformat_minor": 2
  }' > $(pwd)/$1.ipynb
 
- jupyter notebook $(pwd)/$1
+ jupyter notebook $(pwd)/$1.ipynb
 
 }
 
