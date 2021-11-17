@@ -6,6 +6,7 @@ alias pls="sudo"
 export CLICOLOR_FORCE=true # This variable is to force colors for the alias ls when pipe to awk
 export PATH=/Users/tati/bin:/usr/local/php5/bin:$PATH
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+source "/Users/tati/.sdkman/bin/sdkman-init.sh"
 zhost=127.0.0.1:2181
 khost=127.0.0.1:9092
 issuer=user:16316963:23
@@ -16,16 +17,27 @@ export AWS_DEFAULT_REGION=eu-central-1
 
 # folders
 alias lab='cd ${HOME}/lab'
+alias de='cd ${HOME}/lab/de'
+
+lfull(){
+  if [[ -z $1 ]]
+  then
+    ls -d $PWD/*
+  else
+    ls -d $1/*
+  fi
+}
+
 
 # generic
 to(){
  projectName=$1
- if [[ -d $HOME/lab/$projectName ]]
+ if [[ -d $HOME/lab/de/$projectName ]]
  then
-   cd $HOME/lab/$projectName
+   cd $HOME/lab/de/$projectName
  else
    echo "Did you mean one of these *$projectName* folders?:"
-   ls $HOME/lab | grep $projectName
+   ls $HOME/lab/de | grep $projectName
  fi
 
 }

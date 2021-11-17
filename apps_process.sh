@@ -44,10 +44,19 @@ stop() {
 }
 
 killport(){
+        echo "with lsof...."
         lsof -t -i tcp:$1 | xargs kill
+        showport $1
 }
 
 
 showport(){
+        echo "with lsof...."
         lsof -i :$1
+        echo "with netstat....."
+        netstat -anv | grep $1
+}
+
+showpid(){
+        ps -Ao user,pid,command | grep -v grep | grep $1
 }
