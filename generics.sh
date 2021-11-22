@@ -193,6 +193,10 @@ chpwd () {
    if [ -f docker-comopse.yaml ]; then
       docker ps
    fi
+
+   if [ -f dbt_project.yml ]; then
+      cat ${HOME}/.dbt/profiles.yml
+   fi
 }
 
 
