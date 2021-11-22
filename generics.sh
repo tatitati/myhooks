@@ -180,10 +180,18 @@ chpwd () {
       #vagrant status
    fi
 
-  if [ -d .git ]; then
+   if [ -d .git ]; then
       git remote show origin | grep -i fetch
       echo `git branch | wc -l` local  branches
       git s
+   fi
+
+   if [ -f docker-compose.yml ]; then
+      docker ps
+   fi 
+
+   if [ -f docker-comopse.yaml ]; then
+      docker ps
    fi
 }
 
