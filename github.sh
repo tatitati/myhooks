@@ -100,6 +100,12 @@ ghist(){
   git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -$size --reverse
 }
 
+ignore(){
+  echo -e "${1}" >> .gitignore
+  cat .gitignore
+  git s
+}
+
 gsquash(){
  branchname=`git branch --show-current`
  if [[ "$branchname" == "master" ]];then
