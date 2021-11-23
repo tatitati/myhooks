@@ -190,11 +190,15 @@ chpwd () {
       docker ps
    fi 
 
-   if [ -f docker-comopse.yaml ]; then
+   if [ -f docker-compose.yaml ]; then
       docker ps
    fi
 
    if [ -f dbt_project.yml ]; then
+      cat ${HOME}/.dbt/profiles.yml
+   fi
+
+   if [ -f dbt_project.yaml ]; then
       cat ${HOME}/.dbt/profiles.yml
    fi
 }
