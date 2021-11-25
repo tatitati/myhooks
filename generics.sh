@@ -11,7 +11,7 @@ zhost=127.0.0.1:2181
 khost=127.0.0.1:9092
 issuer=user:16316963:23
 export AWS_DEFAULT_OUTPUT=yamlexport CLICOLOR_FORCE=true # This variable is to force colors for the alias ls when pipe to awk
-export PATH=/Users/tati/bin:/usr/local/php5/bin:$PATH
+export PATH=$HOME/.poetry/bin:/Users/tati/bin:/usr/local/php5/bin:$PATH
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 export AWS_DEFAULT_REGION=eu-central-1
 
@@ -109,7 +109,7 @@ lt() {
 }
 
 
-tre () {
+treefull () {
     current_folder=$(pwd)
     folder=${1:-$current_folder}
     tree -C $folder
@@ -184,6 +184,16 @@ chpwd () {
       git remote show origin | grep -i fetch
       echo `git branch | wc -l` local  branches
       git s
+   
+      reponame=$(basename -s .git `git config --get remote.origin.url`)
+      foldername=$(basename $PWD)
+      if [ $reponame != $foldername ]; then
+        echo "changing folder name to match repo name...."
+        cd ..
+        echo "mv ${foldername} ${reponame}"
+        mv $foldername $reponame
+        cd $reponame
+      fi
    fi
 
    if [ -f docker-compose.yml ]; then
