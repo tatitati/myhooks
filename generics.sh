@@ -197,10 +197,12 @@ chpwd () {
    fi
 
    if [ -f docker-compose.yml ]; then
+      docker-compose config --services
       docker ps
    fi 
 
    if [ -f docker-compose.yaml ]; then
+      docker-compose config --services
       docker ps
    fi
 
