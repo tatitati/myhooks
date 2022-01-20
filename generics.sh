@@ -1,23 +1,16 @@
 
 # alias
-alias ls="ls -lAachHLG"
 alias gra="./gradlew"
 alias pls="sudo"
 export CLICOLOR_FORCE=true # This variable is to force colors for the alias ls when pipe to awk
-export PATH=/Users/tati/bin:/usr/local/php5/bin:$PATH
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-source "/Users/tati/.sdkman/bin/sdkman-init.sh"
 zhost=127.0.0.1:2181
 khost=127.0.0.1:9092
 issuer=user:16316963:23
 export AWS_DEFAULT_OUTPUT=yamlexport CLICOLOR_FORCE=true # This variable is to force colors for the alias ls when pipe to awk
-export PATH=$HOME/.poetry/bin:/Users/tati/bin:/usr/local/php5/bin:$PATH
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-export AWS_DEFAULT_REGION=eu-central-1
+alias ls="ls -lAachHLG | awk   '{k=0;for(i=0;i<=8;i++)k+=((substr(\$1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(\"%0o \",k);print}'"
 
 # folders
 alias lab='cd ${HOME}/lab'
-alias de='cd ${HOME}/lab/de'
 
 lfull(){
   if [[ -z $1 ]]
@@ -32,12 +25,12 @@ lfull(){
 # generic
 to(){
  projectName=$1
- if [[ -d $HOME/lab/de/$projectName ]]
+ if [[ -d $HOME/lab/$projectName ]]
  then
-   cd $HOME/lab/de/$projectName
+   cd $HOME/lab/$projectName
  else
    echo "Did you mean one of these *$projectName* folders?:"
-   ls $HOME/lab/de | grep $projectName
+   ls $HOME/lab | grep $projectName
  fi
 
 }
