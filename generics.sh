@@ -65,15 +65,6 @@ backup(){
     done
 }
 
-newfile(){
- touch $1
- sublime $1
-}
-
-fsearch(){
-   ls | grep $1 | awk '{print $9}' | grep $1
-}
-
 shout() {
   msg=${1:-Done}
   osascript -e "display notification  with title \"$msg\"" && say "$msg"
@@ -95,7 +86,7 @@ unsetaws(){
 
 # tree
 
-lt() {
+treepath() {
     current_folder=$(pwd)
     folder=${1:-$current_folder}
     tree -C -f $folder -L 1
@@ -110,6 +101,7 @@ treefull () {
     tree -C -f $folder
 }
 
+# move and restore
 
 fpush() {
   folder_stack=~/stacksfolder
@@ -136,13 +128,26 @@ fpop(){
   ls
 }
 
+# find
 
-findfile() {
+ffile() {
 	find . -type f -name $1
 }
 
-findfolder(){
+ffolder(){
 	find . -type dir -name $1
+}
+
+# create
+
+newfile(){
+ touch $1
+ sublime $1
+}
+
+newdir(){
+   mkdir -p $1
+   cd $1
 }
 
 mtouch() {
@@ -153,12 +158,6 @@ mtouch() {
 	touch $filename
 	blime $filename
 }
-
-mdir(){
-   mkdir -p $1
-   cd $1
-}
-
 
 unzip_targz() {
    tar xvzf $1
