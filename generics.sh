@@ -207,6 +207,17 @@ chpwd () {
    fi
 }
 
+versions(){
+   echo "\n--> sdk current java"
+   sdk current java
+   echo "\n--> sdk current sbt"
+   sdk current sbt   
+   echo "\n--> anaconda -V"
+   anaconda -V
+   echo "\n--> python --version"
+   python --version
+}
+
 
 
 # Useful for personal learning projects
