@@ -7,7 +7,9 @@ zhost=127.0.0.1:2181
 khost=127.0.0.1:9092
 issuer=user:16316963:23
 export AWS_DEFAULT_OUTPUT=yamlexport CLICOLOR_FORCE=true # This variable is to force colors for the alias ls when pipe to awk
-alias ls="ls -lAachHLG | awk   '{k=0;for(i=0;i<=8;i++)k+=((substr(\$1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(\"%0o \",k);print}'"
+#alias ls="ls -lAachHLG | awk   '{k=0;for(i=0;i<=8;i++)k+=((substr(\$1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(\"%0o \",k);print}'"
+alias ls="ls -lAachHLG"
+
 
 # folders
 alias lab='cd ${HOME}/lab'
