@@ -40,6 +40,11 @@ gpull(){
   git s
 }
 
+gadd_ext(){
+   git s | grep $1 | awk '{print $2}' | xargs git add
+   git s
+}
+
 gbranches(){
   git for-each-ref --format='%(color:cyan)%(authordate:format:%m/%d/%Y %I:%M %p)    %(align:25,left)%(color:yellow)%(authorname)%(end) %(color:reset)%(refname:strip=3)' --sort=authordate refs/remotes
 }
