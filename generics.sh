@@ -67,7 +67,7 @@ backup(){
 }
 
 shout() {
-  msg=${1:-Done}
+  msg=${1:-completed}
   osascript -e "display notification  with title \"$msg\"" && say "$msg"
 }
 
