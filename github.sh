@@ -40,6 +40,10 @@ gpull(){
   git s
 }
 
+gbranches(){
+  git for-each-ref --format='%(color:cyan)%(authordate:format:%m/%d/%Y %I:%M %p)    %(align:25,left)%(color:yellow)%(authorname)%(end) %(color:reset)%(refname:strip=3)' --sort=authordate refs/remotes
+}
+
 gpushu(){
   currentBranch=$(git rev-parse --abbrev-ref HEAD)
   git push -u origin $currentBranch
