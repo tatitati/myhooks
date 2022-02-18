@@ -14,7 +14,7 @@ sublime(){
 
 
 # process lifecycle
-running(){
+show_running(){
   services
   docker ps
 }
