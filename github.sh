@@ -20,6 +20,26 @@ github(){
    fi
 }
 
+show_repo(){
+  git remote get-url origin
+  git branch -a
+}
+
+bitbucket () {
+	reponame=`basename $(git remote get-url origin) .git`
+  branchname=`git branch --show-current`
+  echo $branchname
+  open "https://stash.ryanair.com:8443/projects/BI/repos/${reponame}/compare/commits?sourceBranch=refs/heads/${branchname}&targetBranch=refs/heads/dev"
+}
+
+gempty(){
+  echo "commit msg?"
+  read msg
+  git commit -m $msg --allow-empty
+  git push
+  git hist
+}
+
 gcob(){
   git checkout -b $1
   git s
