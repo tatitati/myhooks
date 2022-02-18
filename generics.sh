@@ -244,6 +244,11 @@ versions(){
    anaconda -V
    echo "\n--> python --version"
    python --version
+
+   if [ -f build.sbt ]; then
+      echo "\n--> sbt ';sbtVersion;scalaVersion'"
+      sbt ';sbtVersion;scalaVersion'
+   fi
 }
 
 
