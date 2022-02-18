@@ -66,6 +66,14 @@ backup(){
     done
 }
 
+yaml(){
+   pbpaste | yq -P
+}
+
+yml(){
+   pbpaste | yq -P
+}
+
 shout() {
   msg=${1:-completed}
   osascript -e "display notification  with title \"$msg\"" && say "$msg"
@@ -158,6 +166,25 @@ mtouch() {
 	mdir $dir
 	touch $filename
 	blime $filename
+}
+
+show_aws(){
+   tree -f ~/.aws
+
+   echo "--------- CONFIG"
+   cat ~/.aws/config
+
+   echo "--------- CREDENTIALS"
+   cat ~/.aws/credentials   
+
+   echo "--------- ENV"
+   export | grep -i aws
+
+   echo "--------- AWS CONFIGURE LIST"
+   aws configure list
+
+   echo "--------- aws sts get-caller-identity | jq"
+   aws sts get-caller-identity | jq
 }
 
 unzip_targz() {
