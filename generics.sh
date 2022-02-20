@@ -33,8 +33,15 @@ to(){
    echo "Did you mean one of these *$projectName* folders?:"
    ls $HOME/lab | grep $projectName
  fi
-
 }
+
+mysymbols(){
+   echo "\n\n"
+   echo "│"
+   echo "\n\n"
+   echo "├──"
+   echo "\n\n"
+   echo "└──"}
 
 notebook-create() {
 
