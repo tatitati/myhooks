@@ -276,3 +276,9 @@ exclude(){
  echo $1 >> .git/info/exclude
  cat .git/info/exclude
 }
+
+high(){
+   # example: aws cloudformation describe-stack-resources         --stack-name FR-BI-DYNAMIC-FARE-ADJUSTMENTS-SCORES-CICD-DEV | high Type
+   word=$1
+   ack --passthru "${word}"
+}
