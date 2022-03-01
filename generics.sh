@@ -26,9 +26,11 @@ lsfull(){
 # generic
 to(){
  projectName=$1
- if [[ -d $HOME/lab/$projectName ]]
+ foldername=$(ls --color=never $HOME/lab | grep --color=never $1 | awk '{print $9}')
+ echo $foldername
+ if [[ ! -z $foldername ]]
  then
-   cd $HOME/lab/$projectName
+   cd $HOME/lab/$foldername
  else
    echo "Did you mean one of these *$projectName* folders?:"
    ls $HOME/lab | grep $projectName
