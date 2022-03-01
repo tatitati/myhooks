@@ -283,3 +283,16 @@ high(){
    word=$1
    ack --ignore-case --passthru "${word}"
 }
+
+# testme(){
+#    if $(test -d "$1" -a -f "$2")
+#    then
+#       echo "yep!"
+#    fi
+# }
+
+# testme2(){
+#    if [ -d "$1" ] && [ -f "$2" ]; then
+#       echo "yep!222"
+#    fi
+# }
