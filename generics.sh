@@ -27,7 +27,7 @@ lsfull(){
 to(){
  projectName=$1
  foldername=$(ls --color=never $HOME/lab | grep --color=never $1 | awk '{print $9}')
- echo $foldername
+ echo "moving to: ${foldername}" 
  if [[ ! -z $foldername ]]
  then
    cd $HOME/lab/$foldername
