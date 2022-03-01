@@ -21,7 +21,11 @@ github(){
 }
 
 show_repo(){
+  echo "tags"
+  git ls-remote --tags
+  echo "\norigin:"  
   git remote get-url origin
+  echo "\nbranches:"  
   git branch -a
 }
 
