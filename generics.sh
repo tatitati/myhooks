@@ -177,25 +177,6 @@ mtouch() {
 	blime $filename
 }
 
-show_aws(){
-   tree -f ~/.aws
-
-   echo "--------- CONFIG"
-   cat ~/.aws/config
-
-   echo "--------- CREDENTIALS"
-   cat ~/.aws/credentials   
-
-   echo "--------- ENV"
-   export | grep -i aws
-
-   echo "--------- AWS CONFIGURE LIST"
-   aws configure list
-
-   echo "--------- aws sts get-caller-identity | jq"
-   aws sts get-caller-identity | jq
-}
-
 unzip_targz() {
    tar xvzf $1
 }
