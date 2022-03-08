@@ -130,7 +130,8 @@ gclone() {
 
 ghist(){
   size=${1:-30}
-  git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -$size --reverse
+  git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) = %cd %C(bold blue)<%an>%Creset' --abbrev-commit -$size --reverse
+  
 }
 
 ignore(){
