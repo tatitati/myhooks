@@ -18,5 +18,10 @@ aws_show(){
    aws configure list
 
    echo "\n${GREEN}--------- aws sts get-caller-identity | jq${NC}"
-   aws sts get-caller-identity | jq
+   aws sts get-caller-identity | jq 
+}
+
+aws_resources(){
+   echo "\n${GREEN}--------- Resources: ${NC}"
+   grep -Er 'Type:.*AWS:|\w+Name' aws | high 'Type:'
 }
