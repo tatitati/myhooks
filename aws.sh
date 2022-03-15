@@ -2,7 +2,7 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-aws_show(){
+aws_who(){
    tree -f ~/.aws
 
    echo "\n${GREEN}--------- CONFIG${NC}"
@@ -26,11 +26,11 @@ aws_resources(){
    env=${2:-DEV}   
    
    echo "\n\nSTACK: ${project}-${env}"
-   aws cloudformation  describe-stack-resources --stack-name ${project}-${env} | grep "PhysicalResourceId\|ResourceType"
+   aws cloudformation  describe-stack-resources --stack-name ${project}-${env} | grep "PhysicalResourceId\|ResourceType\|LogicalResourceId"
    echo "\n\nSTACK: ${project}-${env}-CATALOG"
-   aws cloudformation  describe-stack-resources --stack-name ${project}-${env}-CATALOG | grep "ResourceType\|PhysicalResourceId"
+   aws cloudformation  describe-stack-resources --stack-name ${project}-${env}-CATALOG | grep "ResourceType\|PhysicalResourceId\|LogicalResourceId"
    echo "\n\nSTACK: ${project}-CICD-${env}"
-   aws cloudformation  describe-stack-resources --stack-name ${project}-CICD-${env} | grep "ResourceType\|PhysicalResourceId"
+   aws cloudformation  describe-stack-resources --stack-name ${project}-CICD-${env} | grep "ResourceType\|PhysicalResourceId\|LogicalResourceId"
    echo "\n\nSTACK: ${project}-CODECOMMIT"
-   aws cloudformation  describe-stack-resources --stack-name ${project}-CODECOMMIT | grep "ResourceType\|PhysicalResourceId"
+   aws cloudformation  describe-stack-resources --stack-name ${project}-CODECOMMIT | grep "ResourceType\|PhysicalResourceId\|LogicalResourceId"
 }

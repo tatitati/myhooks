@@ -196,7 +196,9 @@ chpwd () {
       git s
    
       reponame=$(basename -s .git `git config --get remote.origin.url`)
-      foldername=$(basename $PWD)
+      foldername=$(basename $PWD)      
+      project=`basename "$PWD"` | tr '[:lower:]' '[:upper:]'
+      export PROJECT=${project}
       if [ $reponame != $foldername ]; then
         echo "changing folder name to match repo name...."
         cd ..
