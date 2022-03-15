@@ -67,3 +67,26 @@ cloudformation(){
    url="https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/stackinfo?filteringStatus=active&filteringText=scores&viewNested=true&hideStacks=false&stackId=arn%3Aaws%3Acloudformation%3Aeu-west-1%3A800457644486%3Astack%2F${resource}"
    open $url
 }
+
+sqs(){
+
+}
+
+sns(){
+
+}
+
+dynamo(){
+   table=$1
+   url="https://eu-west-1.console.aws.amazon.com/dynamodbv2/home?region=eu-west-1#table?initialTagKey=&name=${table}&tab=overview"
+   open $url
+}
+
+cloudwatch(){
+
+}
+
+toairflow(){
+   env=${1:-DEV}
+   open "https://eu-west-1.console.aws.amazon.com/mwaa/home?region=eu-west-1#environments/FR-BI-AIRFLOW-${env}-2/sso"
+}
