@@ -50,12 +50,6 @@ aws_resources(){
    aws cloudformation describe-stack-resources --stack-name $stackname | grep "ResourceType\|PhysicalResourceId"
 }
 
-codepipeline(){
-   env=${2:-DEV}   
-   url="https://eu-west-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/${resource}/view?region=eu-west-1"
-   open $url
-}
-
 codepipeline(){   
    resource=$1
    url="https://eu-west-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/${resource}/view?region=eu-west-1"
