@@ -22,6 +22,15 @@ aws_show(){
 }
 
 aws_resources(){
-   echo "\n${GREEN}--------- Resources: ${NC}"
-   grep -Er 'Type:.*AWS:|\w+Name' aws | high 'Type:'
+   project=`basename "$PWD"` | tr '[:lower:]' '[:upper:]'
+   env=${2:-DEV}   
+   
+   echo "\n\nSTACK: ${project}-${env}"
+   aws cloudformation  describe-stack-resources --stack-name ${project}-${env} | grep "PhysicalResourceId\|ResourceType"
+   echo "\n\nSTACK: ${project}-${env}-CATALOG"
+   aws cloudformation  describe-stack-resources --stack-name ${project}-${env}-CATALOG | grep "ResourceType\|PhysicalResourceId"
+   echo "\n\nSTACK: ${project}-CICD-${env}"
+   aws cloudformation  describe-stack-resources --stack-name ${project}-CICD-${env} | grep "ResourceType\|PhysicalResourceId"
+   echo "\n\nSTACK: ${project}-CODECOMMIT"
+   aws cloudformation  describe-stack-resources --stack-name ${project}-CODECOMMIT | grep "ResourceType\|PhysicalResourceId"
 }
