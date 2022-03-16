@@ -17,8 +17,8 @@ aws_who(){
    echo "\n${GREEN}--------- AWS CONFIGURE LIST${NC}"
    aws configure list
 
-   echo "\n${GREEN}--------- aws sts get-caller-identity | jq${NC}"
-   aws sts get-caller-identity | jq 
+   echo "\n${GREEN}--------- aws sts get-caller-identity${NC}"
+   aws sts get-caller-identity
 }
 
 aws_resources(){
