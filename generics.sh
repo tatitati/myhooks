@@ -182,6 +182,10 @@ unzip_targz() {
 }
 
 chpwd () {
+   if [ "$(basename $PWD)" = "lab" ]; then
+      ls
+   fi
+
    if [ -f .ruby-version ]; then
       rbenv which irb
       #rbenv versions
