@@ -53,7 +53,7 @@ gcom(){
   if [ -d ./docs ] && [ -d ./docs/diagrams ]; then
     # render mermaid templates
     find ./docs/diagrams/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png \;
-    git add docs/diagrams/*.mmd.svg
+    git add docs/diagrams/*.mmd.png
   fi
   git commit -m $1
   git s
