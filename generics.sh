@@ -13,6 +13,10 @@ alias ls="ls -lAachHLG"
 # folders
 alias lab='cd ${HOME}/lab'
 
+myhooks(){
+   (cd /Users/albertf/lab/myprojects/myhooks && code .)
+}
+
 lsfull(){
   if [[ -z $1 ]]
   then

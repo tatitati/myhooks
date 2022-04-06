@@ -50,17 +50,27 @@ gcob(){
 }
 
 gcom(){
-  if [ -d ./docs ] && [ -d ./docs/diagrams ]; then
+  if [ -d ./docs ]; then
     # render mermaid templates
-    find ./docs/diagrams/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png \;
-    git add docs/diagrams/*.mmd.png
+    find ./docs/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png \;
+    git add docs/*.mmd.png
   fi
   git commit -m $1
   git s
 }
 
+render(){
+    find ./docs/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png \;
+		git add docs/*.mmd.png
+}
+
 gadd(){
   git add "$@"
+  git s
+}
+
+gdf(){
+  git d $1
   git s
 }
 
