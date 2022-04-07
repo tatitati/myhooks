@@ -2,6 +2,10 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+credentials(){
+   code /Users/albertf/.aws/credentials
+}
+
 aws_who(){
    tree -f ~/.aws
 
@@ -50,6 +54,11 @@ aws_resources(){
    aws cloudformation describe-stack-resources --stack-name $stackname | grep "ResourceType\|PhysicalResourceId"
 }
 
+describe-local(){
+    awslocal sns list-topics
+    awslocal sqs list-queues
+}
+
 codepipeline(){   
    resource=$1
    url="https://eu-west-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/${resource}/view?region=eu-west-1"
@@ -89,4 +98,18 @@ cloudwatch(){
 toairflow(){
    env=${1:-DEV}
    open "https://eu-west-1.console.aws.amazon.com/mwaa/home?region=eu-west-1#environments/FR-BI-AIRFLOW-${env}-2/sso"
+}
+
+ecrlogin(){
+   aws ecr get-login-password --profile=default | docker login --username AWS --password-stdin 800457644486.dkr.ecr.eu-west-1.amazonaws.com
+}
+
+s3tree(){
+   bucket=$1
+   depth=${2:-2}   
+   
+   echo "\n/data"
+   s3-tree $bucket /data $depth | yq eval -P
+   echo "\n\n/code"
+   s3-tree $bucket /code $depth | yq eval -P
 }
