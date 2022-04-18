@@ -65,6 +65,11 @@ codepipeline(){
    open $url
 }
 
+cfcheck(){
+   cf_template -d aws/infra -o infra.yml
+   aws cloudformation validate-template --template-body file://$(pwd)/output.yml
+}
+
 s3(){
    resource=$1
    url="https://s3.console.aws.amazon.com/s3/buckets/${resource}?region=eu-west-1&tab=objects"

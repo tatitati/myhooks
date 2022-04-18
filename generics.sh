@@ -9,6 +9,21 @@ issuer=user:16316963:23
 alias lsmod="ls -lAachHLG | awk   '{k=0;for(i=0;i<=8;i++)k+=((substr(\$1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(\"%0o \",k);print}'"
 alias ls="ls -lAachHLG"
 
+set_term_bgcolor() {
+  local R=$1
+  local G=$2
+  local B=$3
+  /usr/bin/osascript <<EOF
+tell application "iTerm2"
+  tell current session of current window
+    set background color to {$(($R*65535/255)), $(($G*65535/255)), $(($B*65535/255)), 0}
+  end tell
+end tell
+EOF
+}
+
+set_term_bgcolor $(($RANDOM % 25)) $(($RANDOM % 25)) $(($RANDOM % 25))
+
 
 # folders
 alias lab='cd ${HOME}/lab'

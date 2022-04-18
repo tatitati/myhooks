@@ -2,6 +2,7 @@
 
 alias mygithub='open https://github.com/tatitati'
 alias gmaster="git co master"
+alias gbisect="git bisect"
 
 
 # github
@@ -20,7 +21,7 @@ github(){
    fi
 }
 
-show_repo(){
+gshow(){
   echo "tags"
   git ls-remote --tags
   echo "\norigin:"  
@@ -33,7 +34,7 @@ bitbucket () {
 	reponame=`basename $(git remote get-url origin) .git`
   branchname=`git branch --show-current`
   echo $branchname
-  open "https://stash.ryanair.com:8443/projects/BI/repos/${reponame}/compare/commits?sourceBranch=refs/heads/${branchname}&targetBranch=refs/heads/dev"
+  open "https://stash.ryanair.com:8443/projects/BI/repos/${reponame}/compare/diff?sourceBranch=refs/heads/${branchname}&targetBranch=refs/heads/dev"        
 }
 
 gempty(){
@@ -69,7 +70,7 @@ gadd(){
   git s
 }
 
-gdf(){
+gdif(){
   git d $1
   git s
 }
@@ -88,11 +89,20 @@ gbranches(){
   git for-each-ref --format='%(color:cyan)%(authordate:format:%m/%d/%Y %I:%M %p)    %(align:25,left)%(color:yellow)%(authorname)%(end) %(color:reset)%(refname:strip=3)' --sort=authordate refs/remotes
 }
 
+gpush(){
+  echo "message?:"
+  read message
+  git commit -m $message
+  git push
+  git s
+}
+
 gpushu(){
   currentBranch=$(git rev-parse --abbrev-ref HEAD)
   git push -u origin $currentBranch
   git s
 }
+
 gremove(){
   branch=$1
   git branch -D $branch
