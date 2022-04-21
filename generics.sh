@@ -292,6 +292,23 @@ high(){
    ack --ignore-case --passthru "${word}"
 }
 
+envcreate(){   
+   envname=virtualenv-$(basename $PWD)
+   python3 -m venv $envname 
+   envactivate   
+   echo $envname >> .git/info/exclude
+}
+
+envactivate(){  
+   conda deactivate
+   deactivate   
+   envname=virtualenv-$(basename $PWD)  
+   source $envname/bin/activate   
+   which python
+   pip -V
+}
+
+
 # testme(){
 #    if $(test -d "$1" -a -f "$2")
 #    then
