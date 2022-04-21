@@ -119,7 +119,6 @@ cfoutput(){
 
    echo "\n${GREEN}generating INFRA template merged${NC}"
    cf_template -d aws/infra -o infra.yml
-   aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
    cat infra.yml | yq
 
    echo "\n${GREEN}generating merged PARAMS${NC}"
