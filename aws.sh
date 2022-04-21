@@ -65,11 +65,6 @@ codepipeline(){
    open $url
 }
 
-cfcheck(){
-   cf_template -d aws/infra -o infra.yml
-   aws cloudformation validate-template --template-body file://$(pwd)/output.yml
-}
-
 s3(){
    resource=$1
    url="https://s3.console.aws.amazon.com/s3/buckets/${resource}?region=eu-west-1&tab=objects"
@@ -117,4 +112,21 @@ s3tree(){
    s3-tree $bucket /data $depth | yq eval -P
    echo "\n\n/code"
    s3-tree $bucket /code $depth | yq eval -P
+}
+
+cfoutput(){   
+   env={1:-dev}
+
+   echo "\n${GREEN}generating INFRA template merged${NC}"
+   cf_template -d aws/infra -o infra.yml
+   aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
+   cat infra.yml | yq
+
+   echo "\n${GREEN}generating merged PARAMS${NC}"
+   python -m cf_config -t aws/common/tags.json -p aws/infra/params/common_params.json aws/infra/params/{env}_params.json -e {env} -o params.json
+   cat params.json | jq
+
+
+   echo "\n${GREEN}validating INFRA template${NC}"
+   aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
 }
