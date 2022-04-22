@@ -33,8 +33,7 @@ drm(){
     docker rm -f $(dps $name)
     docker rmi -f $(dimages $name)
   fi   
-
-   
+  docker builder prune # clean cache as well
 }
 
 drm_container(){
