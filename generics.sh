@@ -29,7 +29,7 @@ set_term_bgcolor $(($RANDOM % 25)) $(($RANDOM % 25)) $(($RANDOM % 25))
 alias lab='cd ${HOME}/lab'
 
 myhooks(){
-   (cd /Users/albertf/lab/myprojects/myhooks && code .)
+   (cd ~/lab/myprojects/myhooks && code .)
 }
 
 lsfull(){
