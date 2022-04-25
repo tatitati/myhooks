@@ -308,6 +308,14 @@ envactivate(){
    pip -V
 }
 
+# this alias requires this tool: https://github.com/victorgarric/pip_search
+alias pip='function _pip(){
+    if [ $1 = "search" ]; then
+        pip_search "$2";
+    else pip "$@";
+    fi;
+};_pip'
+
 
 # testme(){
 #    if $(test -d "$1" -a -f "$2")
