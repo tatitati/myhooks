@@ -25,9 +25,15 @@ dimages(){
 }
 
 drm(){
-   name=$1
-   docker rm $(dps $name)
-   docker rmi $(dimages $name)
+  name=$1
+  if [ "${name}"="*" ]; then
+    docker rm -f $(docker ps -aq)
+    docker rmi -f $(docker images -aq)
+  else
+    docker rm -f $(dps $name)
+    docker rmi -f $(dimages $name)
+  fi   
+  docker system prune --all --force # clean cache as well
 }
 
 drm_container(){
