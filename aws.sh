@@ -129,3 +129,7 @@ cfoutput(){
    echo "\n${GREEN}validating INFRA template${NC}"
    aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
 }
+
+ssm(){
+   aws ssm get-parameter --name $1
+}
