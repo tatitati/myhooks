@@ -134,8 +134,11 @@ cfoutput(){
    echo "\n${GREEN}validating INFRA template${NC}"
    # aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
    cfn-lint infra.yml -g
-   dot -Tpng infra.yml.dot -o infra.png
-   imgcat infra.png
+   dot -Tpng infra.yml.dot -o docs/infra.png
+   imgcat docs/infra.png
+   rm infra.yml.dot
+   rm infra.yml
+   rm params.json
 }
 
 cfvalidate(){
