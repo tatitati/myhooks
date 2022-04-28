@@ -130,6 +130,15 @@ cfoutput(){
    aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
 }
 
+cfvalidate(){
+   aws cloudformation validate-template --template-body file://$1
+}
+
 ssm(){
    aws ssm get-parameter --name $1
+}
+
+codeartifact(){
+   aws codeartifact login --tool pip --repository cicd-tools --domain fr-bi-dev
+   aws codeartifact login --tool twine --repository cicd-tools --domain fr-bi-dev
 }
