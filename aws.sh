@@ -114,13 +114,21 @@ s3tree(){
    s3-tree $bucket /code $depth | yq eval -P
 }
 
-cfoutput(){   
+infraoutput(){   
    # requirements:
+   # pip install yamllint
    # pip install cfn-lin
    # pip install pydot
    # brew install graphviz
    # brew install eddieantonio/eddieantonio/imgcat
    env={1:-dev}
+
+   echo "\n${GREEN}Finding infra files${NC}"
+   find aws/infra -type f -name "*.yml"
+
+   echo "\n${GREEN}Validating basic yml format of infra filest${NC}"
+   find aws/infra -type f -name "*.yml" -exec yamllint -d relaxed {} \;
+
 
    echo "\n${GREEN}generating INFRA template merged${NC}"
    cf_template -d aws/infra -o infra.yml
@@ -139,6 +147,40 @@ cfoutput(){
    rm infra.yml.dot
    rm infra.yml
    rm params.json
+}
+
+cicdoutput(){   
+   # requirements
+   # pip install yamllint
+   # pip install cfn-lin
+   # pip install pydot
+   # brew install graphviz
+   # brew install eddieantonio/eddieantonio/imgcat
+   env={1:-dev}
+
+   echo "\n${GREEN}Finding cicd files${NC}"
+   find aws/cicd/pipeline aws/common f -name "*.yml"
+
+   echo "\n${GREEN}Validating basic yml format of cicd filest${NC}"
+   find aws/cicd/pipeline aws/common f -name "*.yml" -exec yamllint -d relaxed {} \;
+
+   echo "\n${GREEN}generating CICD template merged${NC}"
+   cf_template -d aws/cicd/pipeline aws/common -o cicd.yml
+   cat cicd.yml | yq
+
+   # echo "\n${GREEN}generating merged PARAMS${NC}"
+   # python -m cf_config -t aws/common/tags.json -p aws/infra/params/common_params.json aws/infra/params/{env}_params.json -e {env} -o params.json
+   # cat params.json | jq
+
+
+   echo "\n${GREEN}validating CICD template${NC}"
+   # aws cloudformation validate-template --template-body file://$(pwd)/cicd.yml
+   cfn-lint cicd.yml -g
+   dot -Tpng cicd.yml.dot -o docs/cicd.png
+   imgcat docs/cicd.png
+   rm cicd.yml.dot
+   rm cicd.yml
+   # rm params.json
 }
 
 cfvalidate(){
