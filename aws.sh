@@ -115,6 +115,11 @@ s3tree(){
 }
 
 cfoutput(){   
+   # requirements:
+   # pip install cfn-lin
+   # pip install pydot
+   # brew install graphviz
+   # brew install eddieantonio/eddieantonio/imgcat
    env={1:-dev}
 
    echo "\n${GREEN}generating INFRA template merged${NC}"
@@ -127,7 +132,10 @@ cfoutput(){
 
 
    echo "\n${GREEN}validating INFRA template${NC}"
-   aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
+   # aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
+   cfn-lint infra.yml -g
+   dot -Tpng infra.yml.dot -o infra.png
+   imgcat infra.png
 }
 
 cfvalidate(){
