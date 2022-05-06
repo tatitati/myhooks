@@ -300,13 +300,23 @@ envcreate(){
 }
 
 envactivate(){  
-   conda deactivate
-   deactivate   
+   envdeactivate  
    envname=virtualenv-$(basename $PWD)  
    source $envname/bin/activate   
    which python
    pip -V
 }
+
+newtab(){
+   command=$1
+
+   osascript \
+   -e 'tell application "iTerm" to activate' \
+   -e 'tell application "System Events" to tell process "iTerm" to keystroke "t" using command down' \
+   -e 'tell application "System Events" to tell process "iTerm" to keystroke "'$command'"' \
+   -e 'tell application "System Events" to tell process "iTerm" to key code 52'
+}
+
 
 # this alias requires this tool: https://github.com/victorgarric/pip_search
 alias pip='function _pip(){
