@@ -315,13 +315,20 @@ envcreate(){
    pip list --local
 }
 
+envrefresh(){
+   pip -V
+   python -V
+   loginpip
+   pip install -r requirements.txt   
+   pip list --local
+}
+
 envactivate(){  
    envdeactivate  
    envname=virtualenv-$(basename $PWD)  
    source $envname/bin/activate   
    python -V
    pip -V
-   loginpip
    pip list --local
 }
 
