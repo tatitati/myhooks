@@ -292,19 +292,37 @@ high(){
    ack --ignore-case --passthru "${word}"
 }
 
+envdeactivate(){
+   conda deactivate
+   deactivate 
+}
+
+loginpip(){
+   aws codeartifact login --tool pip --repository cicd-tools --domain fr-bi-dev
+}
+
 envcreate(){   
+   pathpython=${1:-python}
+   envdeactivate  
    envname=virtualenv-$(basename $PWD)
-   python3 -m venv $envname 
+   virtualenv -p $pathpython $envname
    envactivate   
-   echo $envname >> .git/info/exclude
+   echo $envname >> .git/info/exclude   
+   pip -V
+   python -V
+   loginpip
+   pip install -r requirements.txt   
+   pip list --local
 }
 
 envactivate(){  
    envdeactivate  
    envname=virtualenv-$(basename $PWD)  
    source $envname/bin/activate   
-   which python
+   python -V
    pip -V
+   loginpip
+   pip list --local
 }
 
 newtab(){
