@@ -56,14 +56,6 @@ to(){
  fi
 }
 
-mysymbols(){
-   echo "\n\n"
-   echo "│"
-   echo "\n\n"
-   echo "├──"
-   echo "\n\n"
-   echo "└──"}
-
 notebook-create() {
 
  echo '{
@@ -77,7 +69,10 @@ notebook-create() {
 
 }
 
-
+column(){
+   cut -d' ' -f${1}-
+}
+ 
 
 upper(){
 	echo $1 | tr '[:lower:]' '[:upper:]'
