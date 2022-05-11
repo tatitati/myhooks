@@ -307,7 +307,7 @@ envcreate(){
    envname=virtualenv-$(basename $PWD)
    virtualenv -p $pathpython $envname
    envactivate   
-   echo $envname >> .git/info/exclude   
+   echo $envname > .git/info/exclude   
    pip -V
    python -V
    loginpip
