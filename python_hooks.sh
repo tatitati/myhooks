@@ -64,7 +64,6 @@ condacreate(){
    envdeactivate
    pythonversion=$1
    envname=conda-$(basename $PWD)__$pythonversion
-   virtualenv -p $pathpython $envname
    conda create --name $envname python=$pythonversion
    condaactivate         
    loginpip
