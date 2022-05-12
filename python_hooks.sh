@@ -69,6 +69,7 @@ condacreate(){
    condaactivate      
    pip -V
    python -V
+   conda env list
    loginpip
    pip install -r requirements.txt   
    conda list
