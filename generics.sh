@@ -287,46 +287,6 @@ high(){
    ack --ignore-case --passthru "${word}"
 }
 
-envdeactivate(){
-   conda deactivate
-   deactivate 
-}
-
-loginpip(){
-   aws codeartifact login --tool pip --repository cicd-tools --domain fr-bi-dev
-}
-
-envcreate(){   
-   pathpython=${1:-python}
-   envdeactivate  
-   envname=virtualenv-$(basename $PWD)
-   virtualenv -p $pathpython $envname
-   envactivate   
-   echo $envname > .git/info/exclude   
-   pip -V
-   python -V
-   loginpip
-   pip install -r requirements.txt   
-   pip list --local
-}
-
-envrefresh(){
-   pip -V
-   python -V
-   loginpip
-   pip install -r requirements.txt   
-   pip list --local
-}
-
-envactivate(){  
-   envdeactivate  
-   envname=virtualenv-$(basename $PWD)  
-   source $envname/bin/activate   
-   python -V
-   pip -V
-   pip list --local
-}
-
 newtab(){
    command=$1
 
@@ -346,15 +306,6 @@ newpane(){
    -e 'tell application "System Events" to tell process "iTerm" to keystroke "'$command'"' \
    -e 'tell application "System Events" to tell process "iTerm" to key code 52'
 }
-
-
-# this alias requires this tool: https://github.com/victorgarric/pip_search
-alias pip='function _pip(){
-    if [ $1 = "search" ]; then
-        pip_search "$2";
-    else pip "$@";
-    fi;
-};_pip'
 
 
 # testme(){

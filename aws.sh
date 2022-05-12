@@ -100,7 +100,7 @@ toairflow(){
    open "https://eu-west-1.console.aws.amazon.com/mwaa/home?region=eu-west-1#environments/FR-BI-AIRFLOW-${env}-2/sso"
 }
 
-ecrlogin(){
+loginecr(){
    aws ecr get-login-password --profile=default | docker login --username AWS --password-stdin 800457644486.dkr.ecr.eu-west-1.amazonaws.com
 }
 

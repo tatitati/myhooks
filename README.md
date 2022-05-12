@@ -9,7 +9,8 @@ newhooks(){
 		source ~/lab/myprojects/myhooks/apps_process.sh
 		source ~/lab/myprojects/myhooks/docker.sh
 		source ~/lab/myprojects/myhooks/sites.sh
-                source ~/lab/myprojects/myhooks/kafkahooks.sh
+		source ~/lab/myprojects/myhooks/kafkahooks.sh
+		source ~/lab/myprojects/myhooks/python_hooks.sh
 }
 
 newhooks
