@@ -66,21 +66,21 @@ condacreate(){
    envname=conda-$(basename $PWD)__$pythonversion
    virtualenv -p $pathpython $envname
    conda create --name $envname python=$pythonversion
-   condaactivate      
-   pip -V
+   condaactivate         
+   loginpip
+   pip install -r requirements.txt      
+}
+
+condadescribe(){
+   pip -V  
    python -V
    conda env list
-   loginpip
-   pip install -r requirements.txt   
    conda list
 }
 
 condaactivate(){
     envname=conda-$(basename $PWD)__$pythonversion
-    source activate $envname
-    python -V
-    pip -V
-    conda list
+    source activate $envname    
 }
 
 condadelete(){
