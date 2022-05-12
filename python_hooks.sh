@@ -76,7 +76,7 @@ condacreate(){
 }
 
 condaactivate(){
-    envname=conda-$(basename $PWD)
+    envname=conda-$(basename $PWD)__$pythonversion
     source activate $envname
     python -V
     pip -V
@@ -85,6 +85,6 @@ condaactivate(){
 
 condadelete(){
     envdeactivate
-    envname=conda-$(basename $PWD)
+    envname=conda-$(basename $PWD)__$pythonversion
     conda env remove --name $envname
 }
