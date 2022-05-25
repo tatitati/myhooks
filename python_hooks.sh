@@ -63,7 +63,7 @@ virtualenvactivate(){
 condacreate(){
    envdeactivate
    pythonversion=$1
-   envname=conda-$(basename $PWD)__$pythonversion
+   envname=$(basename $PWD)
    conda create --name $envname python=$pythonversion
    condaactivate         
    loginpip
@@ -71,19 +71,29 @@ condacreate(){
 }
 
 condadescribe(){
-   pip -V  
-   python -V
    conda env list
-   conda list
+   conda info
+   pip -V     
+   pip list --local   
 }
 
 condaactivate(){
-    envname=conda-$(basename $PWD)__$pythonversion
+    envname=$(basename $PWD)
     source activate $envname    
 }
 
 condadelete(){
     envdeactivate
-    envname=conda-$(basename $PWD)__$pythonversion
+    envname=$(basename $PWD)
     conda env remove --name $envname
+}
+
+# pytest
+# ---
+ptest(){
+   filename=$1
+   testinfile=$2
+
+   pathfile=$(find . -type f -name ${filename})
+   pytest $pathfile -k "${testinfile}"
 }

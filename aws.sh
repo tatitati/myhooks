@@ -25,10 +25,14 @@ aws_who(){
    aws sts get-caller-identity
 }
 
-aws_resources(){
-   project=`basename "$PWD"` | tr '[:lower:]' '[:upper:]'
-   env=${2:-DEV}   
+describe(){
+   reponame=`basename $(git remote get-url origin) .git`
+   branchname=`git branch --show-current`  
+   repo="https://stash.ryanair.com:8443/projects/BI/repos/${reponame}/compare/commits?sourceBranch=refs/heads/${branchname}&targetBranch=refs/heads/dev"
+   echo "\n\nBITBUCKET: ${repo}"
 
+   project=$(basename $PWD | tr '[:lower:]' '[:upper:]')
+   env=${2:-DEV}   
 
    stackname=${project}-${env}   
    echo "\n\nSTACK: ${stackname}"   
@@ -95,6 +99,11 @@ cloudwatch(){
 
 }
 
+glue(){
+   db=$1   
+   open "https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1#database:catalog=800457644486;name=${db}"
+}
+
 toairflow(){
    env=${1:-DEV}
    open "https://eu-west-1.console.aws.amazon.com/mwaa/home?region=eu-west-1#environments/FR-BI-AIRFLOW-${env}-2/sso"
@@ -114,6 +123,41 @@ s3tree(){
    s3-tree $bucket /code $depth | yq eval -P
 }
 
+catalogoutput(){   
+   # requirements:
+   # pip install yamllint
+   # pip install cfn-lin
+   # pip install pydot
+   # brew install graphviz
+   # brew install eddieantonio/eddieantonio/imgcat
+   env=${1:-dev}
+
+   echo "\n${GREEN}Finding catalog files${NC}"
+   find aws/catalog -type f -name "*.yml"
+
+   echo "\n${GREEN}Validating basic yml format of catalog filest${NC}"
+   find aws/catalog -type f -name "*.yml" -exec yamllint -d relaxed {} \;
+
+
+   echo "\n${GREEN}generating CATALOG template merged${NC}"
+   cf_template -d aws/catalog -o catalog.yml
+   cat catalog.yml | yq
+
+   echo "\n${GREEN}generating merged PARAMS${NC}"
+   python -m cf_config -t aws/common/tags.json -p aws/catalog/params/${env}_params.json -e ${env} -o params.json
+   cat params.json | jq
+
+
+   echo "\n${GREEN}validating CATALOG template${NC}"
+   # aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
+   cfn-lint catalog.yml -g
+   dot -Tpng catalog.yml.dot -o doc/catalog.png
+   imgcat doc/catalog.png
+   rm catalog.yml.dot
+   # rm catalog.yml
+   # rm params.json
+}
+
 infraoutput(){   
    # requirements:
    # pip install yamllint
@@ -121,7 +165,7 @@ infraoutput(){
    # pip install pydot
    # brew install graphviz
    # brew install eddieantonio/eddieantonio/imgcat
-   env={1:-dev}
+   env=${1:-dev}
 
    echo "\n${GREEN}Finding infra files${NC}"
    find aws/infra -type f -name "*.yml"
@@ -135,15 +179,15 @@ infraoutput(){
    cat infra.yml | yq
 
    echo "\n${GREEN}generating merged PARAMS${NC}"
-   python -m cf_config -t aws/common/tags.json -p aws/infra/params/common_params.json aws/infra/params/{env}_params.json -e {env} -o params.json
+   python -m cf_config -t aws/common/tags.json -p aws/infra/params/common_params.json aws/infra/params/${env}_params.json -e ${env} -o params.json
    cat params.json | jq
 
 
    echo "\n${GREEN}validating INFRA template${NC}"
    # aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
    cfn-lint infra.yml -g
-   dot -Tpng infra.yml.dot -o docs/infra.png
-   imgcat docs/infra.png
+   dot -Tpng infra.yml.dot -o doc/infra.png
+   imgcat doc/infra.png
    rm infra.yml.dot
    rm infra.yml
    rm params.json
@@ -156,7 +200,7 @@ cicdoutput(){
    # pip install pydot
    # brew install graphviz
    # brew install eddieantonio/eddieantonio/imgcat
-   env={1:-dev}
+   env=${1:-dev}
 
    echo "\n${GREEN}Finding cicd files${NC}"
    find aws/cicd/pipeline aws/common f -name "*.yml"
