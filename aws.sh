@@ -6,6 +6,25 @@ credentials(){
    code /Users/albertf/.aws/credentials
 }
 
+s3_overwrite(){
+   projectname=$(basename $PWD)
+   tablename=$1
+   local_path_to_upload=$2
+   s3_folder=s3://${projectname}-dev/data/glue/${tablename}
+   echo $s3_folder
+
+   echo "overwrite s3 folder? [y/n]:"
+   read message
+   if [[ $message == "y" ]]; then
+      echo "overwriting..."
+      find ${local_path_to_upload} -name "*.crc" -exec rm {} \;
+      aws s3 rm $s3_folder --recursive
+      aws s3 cp ${local_path_to_upload} $s3_folder --recursive
+   else
+      echo "aborted"
+   fi
+}
+
 aws_who(){
    tree -f ~/.aws
 
@@ -62,6 +81,12 @@ describe-local(){
     awslocal sns list-topics
     awslocal sqs list-queues
 }
+
+secret(){
+   secret_id=$1
+   aws secretsmanager  get-secret-value --secret-id $secret_id
+}
+ 
 
 codepipeline(){   
    resource=$1
@@ -238,4 +263,10 @@ ssm(){
 codeartifact(){
    aws codeartifact login --tool pip --repository cicd-tools --domain fr-bi-dev
    aws codeartifact login --tool twine --repository cicd-tools --domain fr-bi-dev
+}
+
+ecr-pull(){
+   loginecr
+   repositoryname=$1
+   docker pull 800457644486.dkr.ecr.eu-west-1.amazonaws.com/${repositoryname}
 }

@@ -198,7 +198,7 @@ unzip_targz() {
 chpwd () {
    if [ "$(basename $PWD)" = "lab" ]; then
       ls
-   fi
+   fi   
 
    if [ -f .ruby-version ]; then
       rbenv which irb
@@ -305,6 +305,11 @@ newpane(){
    -e 'tell application "System Events" to tell process "iTerm" to keystroke "d" using command down' \
    -e 'tell application "System Events" to tell process "iTerm" to keystroke "'$command'"' \
    -e 'tell application "System Events" to tell process "iTerm" to key code 52'
+}
+
+render(){
+   find ./docs/mermaids/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png \;
+   git add docs/mermaids/*.mmd.png
 }
 
 

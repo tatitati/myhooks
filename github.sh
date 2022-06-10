@@ -60,11 +60,6 @@ gcom(){
   git s
 }
 
-render(){
-    find ./docs/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png \;
-		git add docs/*.mmd.png
-}
-
 gadd(){
   git add "$@"
   git s
