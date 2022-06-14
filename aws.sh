@@ -200,7 +200,7 @@ infraoutput(){
 
 
    echo "\n${GREEN}generating INFRA template merged${NC}"
-   cf_template -d aws/infra -o infra.yml
+   cf_template -d aws/infra aws/common -o infra.yml
    cat infra.yml | yq
 
    echo "\n${GREEN}generating merged PARAMS${NC}"
@@ -211,8 +211,8 @@ infraoutput(){
    echo "\n${GREEN}validating INFRA template${NC}"
    # aws cloudformation validate-template --template-body file://$(pwd)/infra.yml
    cfn-lint infra.yml -g
-   dot -Tpng infra.yml.dot -o doc/infra.png
-   imgcat doc/infra.png
+   dot -Tpng infra.yml.dot -o docs/infra.png
+   imgcat docs/infra.png
    rm infra.yml.dot
    rm infra.yml
    rm params.json

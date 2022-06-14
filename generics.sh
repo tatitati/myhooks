@@ -41,6 +41,10 @@ lsfull(){
   fi
 }
 
+dname(){
+   echo $(basename $PWD)
+}
+
 
 # generic
 to(){
@@ -308,8 +312,9 @@ newpane(){
 }
 
 render(){
-   find ./docs/mermaids/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png \;
-   git add docs/mermaids/*.mmd.png
+   find ./docs/mermaids/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png \;      
+
+   git s
 }
 
 

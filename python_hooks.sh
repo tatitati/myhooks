@@ -54,7 +54,7 @@ virtualenvactivate(){
    source $envname/bin/activate   
    python -V
    pip -V
-   pip list --local
+   # pip list --local
 }
 
 

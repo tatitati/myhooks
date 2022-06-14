@@ -1,11 +1,23 @@
 #!/bin/bash
 alias dc="docker-compose"
 
+drun(){
+  image=$1
+  docker run -it $image /bin/bash
+}
+
+drun-here(){
+  image=$1
+  place_to_mount=$2
+  docker run --rm -it -v $(pwd):${place_to_mount} $image /bin/bash
+}
+
 dexec(){
+  container=$1
   if [[ -z $2 ]]; then
-     docker exec -it $1 /bin/bash
+     docker exec -it $container /bin/bash
   else
-    docker exec -it --user $2 $1  /bin/bash
+    docker exec -it --user $2 $container  /bin/bash
   fi
 }
 
