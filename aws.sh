@@ -2,6 +2,47 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+profile-set(){
+   env=$1
+   if [[ "$env" = "oat" || "$env" = "prod"  ]]; then
+      export AWS_PROFILE=prod
+   else
+      export AWS_PROFILE=dev
+   fi
+
+   profile-show   
+}
+
+profile-show(){
+   if [[ -z "${AWS_PROFILE}" ]]; then
+      export AWS_PROFILE=dev
+   fi
+
+   tabset $AWS_PROFILE
+
+   echo "\n${GREEN}--------- AWS CONFIGURE LIST${NC}"
+   aws configure list
+
+   # echo "\n${GREEN}--------- aws sts get-caller-identity${NC}"
+   # aws sts get-caller-identity
+}
+
+codepipelinedeploy(){   
+   env=$1
+   profile-set $env
+
+   echo "cicd_deploy $env"
+   cicd_deploy $env
+}
+
+codecommitdeploy(){
+   env=$1
+   profile-set $env
+
+   echo "cicd_deploy $env"
+   codecommit_deploy $env 
+}
+
 credentials(){
    code /Users/albertf/.aws/credentials
 }
@@ -51,30 +92,33 @@ describe(){
    echo "\n\nBITBUCKET: ${repo}"
 
    project=$(basename $PWD | tr '[:lower:]' '[:upper:]')
-   env=${2:-DEV}   
+   env=${1:-dev}   
+
+   profile-set $env
+
+   env=$(echo $env | tr '[:lower:]' '[:upper:]')
 
    stackname=${project}-${env}   
-   echo "\n\nSTACK: ${stackname}"   
+
+   stackname=${project}-CODECOMMIT
+   echo "\n\nCODECOMMIT STACK: ${stackname}"
+   aws cloudformation describe-stacks --stack-name $stackname | grep StackId
+   aws cloudformation describe-stack-resources --stack-name $stackname | grep "ResourceType\|PhysicalResourceId"
+
+   stackname=${project}-CICD-${env}
+   echo "\n\nCICD STACK: ${stackname}"
+   aws cloudformation describe-stacks --stack-name $stackname | grep StackId
+   aws cloudformation describe-stack-resources --stack-name $stackname | grep "ResourceType\|PhysicalResourceId"
+
+   echo "\n\nAPP STACK: ${stackname}"   
    aws cloudformation describe-stacks --stack-name ${stackname} | grep StackId
    aws cloudformation describe-stack-resources --stack-name ${stackname} | grep "PhysicalResourceId\|ResourceType"
 
 
    stackname=${project}-${env}-CATALOG
-   echo "\n\nSTACK: ${stackname}"
+   echo "\n\nCATALOG STACK: ${stackname}"
    aws cloudformation describe-stacks --stack-name ${stackname} | grep StackId
    aws cloudformation describe-stack-resources --stack-name ${stackname} | grep "ResourceType\|PhysicalResourceId"
-
-
-   stackname=${project}-CICD-${env}
-   echo "\n\nSTACK: ${stackname}"
-   aws cloudformation describe-stacks --stack-name $stackname | grep StackId
-   aws cloudformation describe-stack-resources --stack-name $stackname | grep "ResourceType\|PhysicalResourceId"
-
-
-   stackname=${project}-CODECOMMIT
-   echo "\n\nSTACK: ${stackname}"
-   aws cloudformation describe-stacks --stack-name $stackname | grep StackId
-   aws cloudformation describe-stack-resources --stack-name $stackname | grep "ResourceType\|PhysicalResourceId"
 }
 
 describe-local(){
@@ -269,4 +313,54 @@ ecr-pull(){
    loginecr
    repositoryname=$1
    docker pull 800457644486.dkr.ecr.eu-west-1.amazonaws.com/${repositoryname}
+}
+
+ecr-list(){
+   aws ecr describe-repositories | grep repositoryName
+}
+
+ecr-list-images(){
+   repo=$1
+   aws ecr list-images --repository-name $repo
+}
+
+s3-list(){
+   aws s3 ls
+}
+
+lambda-list(){
+   aws lambda list-functions | grep FunctionName
+}
+
+sqs-list(){
+   aws sqs list-queues
+}
+
+sns-list(){
+   aws sns list-topics
+}
+
+s3-bucket-delete(){
+   bucket=$1
+   aws s3 rm s3://$bucket --recursive
+   aws s3api delete-bucket --bucket $bucket
+}
+
+ecr-delete(){
+   reponame=$1   
+   aws ecr delete-repository --repository-name $reponame
+}
+
+aws-list(){
+   name=$1
+   echo "ecr..."
+   ecr-list | grep $name
+   echo "s3..."
+   s3-list | grep $name
+   echo "lambda..."
+   lambda-list | grep $name
+   echo "sqs..."
+   sqs-list | grep $name
+   echo "sns..."
+   sns-list | grep $name
 }
