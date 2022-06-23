@@ -85,11 +85,16 @@ gbranches(){
 }
 
 gpush(){
-  echo "message?:"
-  read message
-  git commit -m $message
-  git push
-  git s
+  branchname=`git branch --show-current`
+  if [[ "$branchname" == "prod" || "$branchname" == "oat" || "$branchname" == "sit" ]]; then
+     echo "Not pushing to ${branchname}, No fucking way, is a protected branch"
+  else
+    echo "message?:"
+    read message
+    git commit -m $message
+    git push
+    git s
+  fi
 }
 
 gpushu(){
@@ -162,14 +167,12 @@ ignore(){
 
 gsquash(){
  branchname=`git branch --show-current`
- if [[ "$branchname" == "master" ]];then
-     shout "Squash master?, No fucking way"
- else
-     echo "From what branch?"
-     read fromBranch
+ if [[ "$branchname" == "prod" || "$branchname" == "dev" || "$branchname" == "oat" || "$branchname" == "sit" ]]; then
+     echo "Squash ${branchname}?, No fucking way, is a protected branch"
+ else     
      echo "message?:"
      read message
-     git reset $(git merge-base $fromBranch $branchname)
+     git reset $(git merge-base dev $branchname)
      git add .
      git commit -m "$message"
  fi

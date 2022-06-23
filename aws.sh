@@ -7,7 +7,7 @@ profile-set(){
    if [[ "$env" = "oat" || "$env" = "prod"  ]]; then
       export AWS_PROFILE=prod
    else
-      export AWS_PROFILE=dev
+      export AWS_PROFILE=default
    fi
 
    profile-show   
@@ -15,13 +15,14 @@ profile-set(){
 
 profile-show(){
    if [[ -z "${AWS_PROFILE}" ]]; then
-      export AWS_PROFILE=dev
+      export AWS_PROFILE=default
    fi
 
-   tabset $AWS_PROFILE
+   tabset "AWS_PROFILE=${AWS_PROFILE}"
+   echo $AWS_PROFILE
 
-   echo "\n${GREEN}--------- AWS CONFIGURE LIST${NC}"
-   aws configure list
+   # echo "\n${GREEN}--------- AWS CONFIGURE LIST${NC}"
+   # aws configure list
 
    # echo "\n${GREEN}--------- aws sts get-caller-identity${NC}"
    # aws sts get-caller-identity
@@ -96,9 +97,12 @@ describe(){
 
    profile-set $env
 
-   env=$(echo $env | tr '[:lower:]' '[:upper:]')
+   env=$(echo $env | tr '[:lower:]' '[:upper:]')   
 
-   stackname=${project}-${env}   
+   stackname=${project}-${env}
+   echo "\n\nAPP STACK: ${stackname}"   
+   aws cloudformation describe-stacks --stack-name ${stackname} | grep StackId
+   aws cloudformation describe-stack-resources --stack-name ${stackname} | grep "PhysicalResourceId\|ResourceType"
 
    stackname=${project}-CODECOMMIT
    echo "\n\nCODECOMMIT STACK: ${stackname}"
@@ -109,11 +113,6 @@ describe(){
    echo "\n\nCICD STACK: ${stackname}"
    aws cloudformation describe-stacks --stack-name $stackname | grep StackId
    aws cloudformation describe-stack-resources --stack-name $stackname | grep "ResourceType\|PhysicalResourceId"
-
-   echo "\n\nAPP STACK: ${stackname}"   
-   aws cloudformation describe-stacks --stack-name ${stackname} | grep StackId
-   aws cloudformation describe-stack-resources --stack-name ${stackname} | grep "PhysicalResourceId\|ResourceType"
-
 
    stackname=${project}-${env}-CATALOG
    echo "\n\nCATALOG STACK: ${stackname}"

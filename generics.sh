@@ -312,7 +312,7 @@ newpane(){
 }
 
 render(){
-   find ./docs/mermaids/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png \;      
+   find ./docs/mermaids/*.mmd -maxdepth 1 -exec mmdc -i {} -o {}.png --scale 2 \;      
 
    git s
 }
